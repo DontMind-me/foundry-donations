@@ -34,8 +34,8 @@ To interact with the FundMe contract or deploy it yourself, you'll need:
 ## Clone Repository
 
 ```
-git clone https://github.com/Cyfrin/foundry-fund-me-f23
-cd foundry-fund-me-f23
+git clone https://github.com/DontMind-me/foundry-donations
+cd foundry-donations
 forge build
 ```
 
