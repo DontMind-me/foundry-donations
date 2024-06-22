@@ -1,44 +1,45 @@
-//SPDX_License-Identifier: MIT
+// SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.18;
 
 import {Script, console} from "forge-std/Script.sol";
+import {Donations} from "../src/Donations.sol";
 import {DevOpsTools} from "foundry-devops/src/DevOpsTools.sol";
-import {FundMe} from "../src/FundMe.sol";
 
-contract FundFundMe is Script {
+contract FundDonations is Script {
     uint256 constant SEND_VALUE = 0.01 ether;
 
-    function fundFundMe(address mostRecentlyDeployed) public {
+    function fundDonations(address mostRecentContract) public {
         vm.startBroadcast();
-        FundMe(payable(mostRecentlyDeployed)).fund{value: SEND_VALUE}();
+        Donations(payable(mostRecentContract)).fund{value: SEND_VALUE}();
         vm.stopBroadcast();
-        console.log("Funded FundMe with %s", SEND_VALUE);
     }
 
     function run() external {
-        address mostRecentlyDeployed = DevOpsTools.get_most_recent_deployment(
-            "FundMe",
+        address mostRecentContract = DevOpsTools.get_most_recent_deployment(
+            "Donations",
             block.chainid
         );
 
-        fundFundMe(mostRecentlyDeployed);
+        fundDonations(mostRecentContract);
     }
 }
 
-contract WithdrawFundMe is Script {
-    function withdrawFundMe(address mostRecentlyDeployed) public {
+contract WithdrawDonations is Script {
+    uint256 constant SEND_VALUE = 0.01 ether;
+
+    function withdrawDonations(address mostRecentContract) public {
         vm.startBroadcast();
-        FundMe(payable(mostRecentlyDeployed)).withdraw();
+        Donations(payable(mostRecentContract)).withdraw();
         vm.stopBroadcast();
     }
 
     function run() external {
-        address mostRecentlyDeployed = DevOpsTools.get_most_recent_deployment(
-            "FundMe",
+        address mostRecentContract = DevOpsTools.get_most_recent_deployment(
+            "Donations",
             block.chainid
         );
 
-        withdrawFundMe(mostRecentlyDeployed);
+        withdrawDonations(mostRecentContract);
     }
 }
